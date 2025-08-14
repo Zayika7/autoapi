@@ -1,11 +1,8 @@
 import requests
 import json
-import time
 import os
 import re
-import base64
-import hashlib
-import hmac
+
 
 try:
     from openai import OpenAI
@@ -16,7 +13,7 @@ except ImportError:
 
 DOUBAO_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
 DOUBAO_CHAT_URL = "https://ark.cn-beijing.volces.com/api/v3/chat/completions"
-DOUBAO_API_KEY = None  # 用户必须通过环境变量或GUI配置
+DOUBAO_API_KEY = os.environ.get("DOUBAO_API_KEY")  # 用户必须通过环境变量或GUI配置
 
 def get_doubao_appkey():
     """获取豆包的appkey（需要用户手动配置或通过抓包获取）"""
@@ -185,7 +182,7 @@ def design_knowledge_driven_cases(api_doc: dict, test_data_json: str, model: str
     related_models = collect_related_models(api_doc)
 
     prompt = prompt_template.format(
-        api_doc_json=json.dumps(api_doc, indent=2),
+        api_doc_json=json.dumps(api_doc, ensure_ascii=False,indent=2),
         test_data_json=test_data_json,
         related_models_json=json.dumps(related_models, ensure_ascii=False, indent=2)
     )
@@ -234,7 +231,7 @@ def collect_related_models(api_doc: dict) -> dict:
                 models[name] = resp.json()
             except Exception as fetch_err:
                 # 失败时跳过，不影响主流程
-                models[name] = {"_error": f"fetch_failed: {fetch_err}", "url": url}
+                models[name] = {"_error": f"fetch_failed: {str(fetch_err)}", "url": url}
     except Exception:
         pass
     return models

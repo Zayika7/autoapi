@@ -7,7 +7,6 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from tkinter.scrolledtext import ScrolledText
-import json
 import os
 import threading
 import traceback
@@ -28,7 +27,7 @@ class GeminiApp(tk.Tk):
         
         self.status_var = tk.StringVar(value="就绪")
         self.progress = None
-        
+
         self.test_cases = []
         self.current_case_index = 0
 
@@ -177,7 +176,7 @@ class GeminiApp(tk.Tk):
         """显示当前测试用例"""
         if not self.test_cases:
             return
-        
+
         case = self.test_cases[self.current_case_index]
         
         # 更新导航信息
@@ -205,7 +204,7 @@ class GeminiApp(tk.Tk):
         """显示上一个测试用例"""
         if not self.test_cases:
             return
-        
+
         if self.current_case_index > 0:
             self.current_case_index -= 1
             self._display_current_case()
