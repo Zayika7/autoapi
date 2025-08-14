@@ -1,0 +1,7 @@
+{
+  "api_path": "/erp/opentrade/v2/list/trades",
+  "model": "doubao-seed-1-6-250615",
+  "api_key": "",
+  "test_data_file": "MS_25_Environments_variables.json"
+}
+
